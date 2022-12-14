@@ -3,6 +3,7 @@ from setuptools import find_packages,setup
 from typing import List
 
 REQUIREMENT_FILE_NAME="requirements.txt"
+# -e . will trigger setup file while pip install -r requirements.txt
 HYPHEN_E_DOT = "-e ."
 
 def get_requirements()->List[str]:
