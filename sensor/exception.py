@@ -1,5 +1,6 @@
 import sys,os
 
+# this will give which file is giving error and which line is giving error
 def error_message_detail(error, error_detail: sys):
     _, _, exc_tb = error_detail.exc_info()
     file_name = exc_tb.tb_frame.f_code.co_filename
@@ -7,7 +8,6 @@ def error_message_detail(error, error_detail: sys):
         file_name, exc_tb.tb_lineno, str(error)
     )
     return error_message
-
 
 
 class SensorException(Exception):
@@ -18,6 +18,3 @@ class SensorException(Exception):
 
     def __str__(self):
         return self.error_message
-
-
-
