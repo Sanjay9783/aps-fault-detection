@@ -9,6 +9,16 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 
+'''
+this is the first step in this project 
+used for fetching data from database, splitting data into train and test dataset 
+store this three files raw_data=sensor.csv, train.csv, test.csv 
+to respective folder defined in config_entity file
+
+'''
+
+
+
 class DataIngestion:
     
     def __init__(self,data_ingestion_config:config_entity.DataIngestionConfig ):

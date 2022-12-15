@@ -4,6 +4,12 @@ from sensor.exception import SensorException
 from sensor.config import mongo_client
 import os,sys
 
+
+'''
+this file is used to fech the file records in database 
+and return the record in the pandas dataframe 
+'''
+
 def get_collection_as_dataframe(database_name:str,collection_name:str)->pd.DataFrame:
     """
     Description: This function return collection as dataframe
@@ -18,10 +24,14 @@ def get_collection_as_dataframe(database_name:str,collection_name:str)->pd.DataF
         logging.info(f"Reading data from database: {database_name} and collection: {collection_name}")
         df = pd.DataFrame(list(mongo_client[database_name][collection_name].find()))
         logging.info(f"Found columns: {df.columns}")
+        
+        # dropping unnecessary column
         if "_id" in df.columns:
             logging.info(f"Dropping column: _id ")
             df = df.drop("_id",axis=1)
         logging.info(f"Row and columns in df: {df.shape}")
+
         return df
+
     except Exception as e:
         raise SensorException(e, sys)

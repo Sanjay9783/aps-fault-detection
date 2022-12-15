@@ -1,5 +1,12 @@
 import sys,os
 
+'''
+this file helps in creating exception error during exicution 
+it will also give file name and line number where the error has occured 
+so that we can fetch the error to coreect it
+'''
+
+
 # this will give which file is giving error and which line is giving error
 def error_message_detail(error, error_detail: sys):
     _, _, exc_tb = error_detail.exc_info()

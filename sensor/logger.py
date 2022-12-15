@@ -3,6 +3,13 @@ import os
 from datetime import datetime
 import os
 
+'''
+this logger file is used log the information during program exicution 
+all the looging parameters are defined in this file
+i just need to import this file by file name where-ever looging is needed 
+'''
+
+
 #log file name
 LOG_FILE_NAME = f"{datetime.now().strftime('%m%d%Y__%H%M%S')}.log"
 

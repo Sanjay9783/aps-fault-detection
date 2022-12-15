@@ -2,8 +2,14 @@ import pymongo
 import pandas as pd
 import json
 from dataclasses import dataclass
-# Provide the mongodb localhost url to connect python to mongodb.
 import os
+
+'''
+this file is used to connect to mongo db url
+all the related links and key are written ".env" file
+'''
+
+# Provide the mongodb localhost url to connect python to mongodb.
 @dataclass
 class EnvironmentVariable:
     mongo_db_url:str = os.getenv("MONGO_DB_URL")
