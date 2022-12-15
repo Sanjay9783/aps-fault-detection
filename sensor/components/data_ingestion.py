@@ -23,6 +23,7 @@ class DataIngestion:
     
     def __init__(self,data_ingestion_config:config_entity.DataIngestionConfig ):
         try:
+            logging.info(f"{'>>'*20} Data ingestion {'<<'*20}")
             self.data_ingestion_config = data_ingestion_config
         except Exception as e:
             raise SensorException(e, sys)

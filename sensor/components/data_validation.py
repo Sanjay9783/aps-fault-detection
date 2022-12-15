@@ -37,13 +37,17 @@ class DataValidation:
         returns Pandas DataFrame if atleast a single column is available after missing columns drop else None
         """
         try:
-            
+            # taking threshold to drop columns
             threshold = self.data_validation_config.missing_threshold
+            # fetching columns with null value
+            # df.shape[0] will give no of rows
             null_report = df.isna().sum()/df.shape[0]
+            
             #selecting column name which contains null
             logging.info(f"selecting column name which contains null above to {threshold}")
             drop_column_names = null_report[null_report>threshold].index
-
+            
+            # drop columns which has high null value
             logging.info(f"Columns to drop: {list(drop_column_names)}")
             self.validation_error[report_key_name]=list(drop_column_names)
             df.drop(list(drop_column_names),axis=1,inplace=True)
@@ -67,6 +71,7 @@ class DataValidation:
                     logging.info(f"Column: [{base} is not available.]")
                     missing_columns.append(base_column)
 
+            # not so imp
             if len(missing_columns)>0:
                 self.validation_error[report_key_name]=missing_columns
                 return False
@@ -81,6 +86,7 @@ class DataValidation:
             base_columns = base_df.columns
             current_columns = current_df.columns
 
+            # most of code is from scipy.stats main page
             for base_column in base_columns:
                 base_data,current_data = base_df[base_column],current_df[base_column]
                 #Null hypothesis is that both column data drawn from same distrubtion
