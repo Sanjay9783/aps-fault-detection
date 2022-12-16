@@ -8,6 +8,8 @@ there are main 6 steps in this project
     4-ModelTrainer
     5-ModelEvaluation
     6-ModelPusher
+
+this file will act as output file for each and every step
 '''
 
 @dataclass
@@ -25,9 +27,25 @@ class DataValidationArtifact:
     report_file_path:str
 
 
-class DataTransformationArtifact:...
-class ModelTrainerArtifact:...
-class ModelEvaluationArtifact:...
+@dataclass
+class DataTransformationArtifact:
+    transform_object_path:str
+    transformed_train_path:str
+    transformed_test_path:str
+    target_encoder_path:str
+
+@dataclass
+class ModelTrainerArtifact:
+    model_path:str 
+    f1_train_score:float 
+    f1_test_score:float
+
+@dataclass
+class ModelEvaluationArtifact:
+    is_model_accepted:bool
+    improved_accuracy:float
+
+
 class ModelPusherArtifact:...
 
 
