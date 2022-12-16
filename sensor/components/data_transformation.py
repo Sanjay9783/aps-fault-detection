@@ -27,12 +27,11 @@ class DataTransformation:
         except Exception as e:
             raise SensorException(e, sys)
 
-    # @classmethod it is used to all object in a class 
+
     @classmethod
     def get_data_transformer_object(cls)->Pipeline:
         try:
             simple_imputer = SimpleImputer(strategy='constant', fill_value=0)
-            # robust scaler is used to handel outliers
             robust_scaler =  RobustScaler()
             pipeline = Pipeline(steps=[
                     ('Imputer',simple_imputer),
@@ -57,7 +56,6 @@ class DataTransformation:
             target_feature_train_df = train_df[TARGET_COLUMN]
             target_feature_test_df = test_df[TARGET_COLUMN]
 
-            # conver str lable to numerical
             label_encoder = LabelEncoder()
             label_encoder.fit(target_feature_train_df)
 
@@ -72,8 +70,9 @@ class DataTransformation:
             input_feature_train_arr = transformation_pipleine.transform(input_feature_train_df)
             input_feature_test_arr = transformation_pipleine.transform(input_feature_test_df)
             
+
             # oversampling dataset to balance the two catogory 'pos,neg'
-            smt = SMOTETomek(sampling_strategy="minority")
+            smt = SMOTETomek(random_state=42)
             logging.info(f"Before resampling in training set Input: {input_feature_train_arr.shape} Target:{target_feature_train_arr.shape}")
             input_feature_train_arr, target_feature_train_arr = smt.fit_resample(input_feature_train_arr, target_feature_train_arr)
             logging.info(f"After resampling in training set Input: {input_feature_train_arr.shape} Target:{target_feature_train_arr.shape}")
