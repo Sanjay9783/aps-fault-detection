@@ -7,6 +7,12 @@ from sklearn.metrics import f1_score
 import pandas  as pd
 import sys,os
 from sensor.config import TARGET_COLUMN
+
+'''
+this file helps in comparing different trained model, implimented model which one is better one
+#which model is best trained or the model from saved model folder
+'''
+
 class ModelEvaluation:
 
     def __init__(self,
@@ -30,8 +36,6 @@ class ModelEvaluation:
     def initiate_model_evaluation(self)->artifact_entity.ModelEvaluationArtifact:
         try:
             #if saved model folder has model the we will compare 
-            #which model is best trained or the model from saved model folder
-
             logging.info("if saved model folder has model the we will compare "
             "which model is best trained or the model from saved model folder")
             latest_dir_path = self.model_resolver.get_latest_dir_path()
@@ -42,21 +46,21 @@ class ModelEvaluation:
                 return model_eval_artifact
 
 
-            #Finding location of transformer model and target encoder
-            logging.info("Finding location of transformer model and target encoder")
+            #Finding location of transformer, model and target encoder
+            logging.info("Finding location of transformer, model and target encoder")
             transformer_path = self.model_resolver.get_latest_transformer_path()
             model_path = self.model_resolver.get_latest_model_path()
             target_encoder_path = self.model_resolver.get_latest_target_encoder_path()
 
             logging.info("Previous trained objects of transformer, model and target encoder")
-            #Previous trained  objects
+            #loading Previous trained  objects
             transformer = load_object(file_path=transformer_path)
             model = load_object(file_path=model_path)
             target_encoder = load_object(file_path=target_encoder_path)
             
 
             logging.info("Currently trained model objects")
-            #Currently trained model objects
+            #loading Currently trained model objects
             current_transformer = load_object(file_path=self.data_transformation_artifact.transform_object_path)
             current_model  = load_object(file_path=self.model_trainer_artifact.model_path)
             current_target_encoder = load_object(file_path=self.data_transformation_artifact.target_encoder_path)
@@ -66,11 +70,12 @@ class ModelEvaluation:
             test_df = pd.read_csv(self.data_ingestion_artifact.test_file_path)
             target_df = test_df[TARGET_COLUMN]
             y_true =target_encoder.transform(target_df)
-            # accuracy using previous trained model
             
+            # accuracy using previous trained model
             input_feature_name = list(transformer.feature_names_in_)
             input_arr =transformer.transform(test_df[input_feature_name])
             y_pred = model.predict(input_arr)
+            # target_encoder.inverse_transform convert the int value of target to original format 'str'
             print(f"Prediction using previous model: {target_encoder.inverse_transform(y_pred[:5])}")
             previous_model_score = f1_score(y_true=y_true, y_pred=y_pred)
             logging.info(f"Accuracy using previous trained model: {previous_model_score}")
@@ -83,6 +88,8 @@ class ModelEvaluation:
             print(f"Prediction using trained model: {current_target_encoder.inverse_transform(y_pred[:5])}")
             current_model_score = f1_score(y_true=y_true, y_pred=y_pred)
             logging.info(f"Accuracy using current trained model: {current_model_score}")
+            
+            
             if current_model_score<=previous_model_score:
                 logging.info(f"Current trained model is not better than previous model")
                 raise Exception("Current trained model is not better than previous model")

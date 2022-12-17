@@ -5,8 +5,7 @@ from typing import Optional
 import os
 
 '''
-helps in fetching model dir and other responsible dir 
-and compare with latest models
+this file helps in to read , load or save model
 '''
 
 class ModelResolver:

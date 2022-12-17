@@ -5,6 +5,12 @@ import os,sys
 from sensor.utils import load_object,save_object
 from sensor.logger import logging
 from sensor.entity.artifact_entity import DataTransformationArtifact,ModelTrainerArtifact,ModelPusherArtifact
+
+
+'''
+
+'''
+
 class ModelPusher:
 
     def __init__(self,model_pusher_config:ModelPusherConfig,
@@ -27,14 +33,14 @@ class ModelPusher:
             model = load_object(file_path=self.model_trainer_artifact.model_path)
             target_encoder = load_object(file_path=self.data_transformation_artifact.target_encoder_path)
 
-            #model pusher dir
+            #model pusher dir (save transdormer , model, encoder to artifact dit)
             logging.info(f"Saving model into model pusher directory")
             save_object(file_path=self.model_pusher_config.pusher_transformer_path, obj=transformer)
             save_object(file_path=self.model_pusher_config.pusher_model_path, obj=model)
             save_object(file_path=self.model_pusher_config.pusher_target_encoder_path, obj=target_encoder)
 
 
-            #saved model dir
+            #saved model dir (save transdormer , model, encoder to outside artifact dir)
             logging.info(f"Saving model in saved model dir")
             transformer_path=self.model_resolver.get_latest_save_transformer_path()
             model_path=self.model_resolver.get_latest_save_model_path()
