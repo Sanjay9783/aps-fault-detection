@@ -14,9 +14,6 @@ this file will act as output file for each and every step
 
 @dataclass
 class DataIngestionArtifact:
-    '''
-    out for data_ingestion.py
-    '''
     feature_store_file_path:str
     train_file_path:str 
     test_file_path:str
@@ -46,8 +43,6 @@ class ModelEvaluationArtifact:
     improved_accuracy:float
 
 
-class ModelPusherArtifact:...
-
-
-
-
+class ModelPusherArtifact:
+    pusher_model_dir:str 
+    saved_model_dir:str
