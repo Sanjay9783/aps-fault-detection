@@ -1,4 +1,5 @@
 from sensor.predictor import ModelResolver
+from sensor.entity import config_entity,artifact_entity
 from sensor.entity.config_entity import ModelPusherConfig
 from sensor.exception import SensorException
 import os,sys
@@ -51,7 +52,7 @@ class ModelPusher:
             save_object(file_path=target_encoder_path, obj=target_encoder)
 
             model_pusher_artifact = ModelPusherArtifact(pusher_model_dir=self.model_pusher_config.pusher_model_dir,
-             saved_model_dir=self.model_pusher_config.saved_model_dir)
+                saved_model_dir=self.model_pusher_config.saved_model_dir)
             logging.info(f"Model pusher artifact: {model_pusher_artifact}")
             return model_pusher_artifact
         except Exception as e:

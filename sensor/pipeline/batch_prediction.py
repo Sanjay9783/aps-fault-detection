@@ -5,6 +5,7 @@ import pandas as pd
 from sensor.utils import load_object
 import os,sys
 from datetime import datetime
+
 PREDICTION_DIR="prediction"
 
 import numpy as np
@@ -16,8 +17,8 @@ def start_batch_prediction(input_file_path):
         logging.info(f"Reading file :{input_file_path}")
         df = pd.read_csv(input_file_path)
         df.replace({"na":np.NAN},inplace=True)
-        #validation
         
+        #validation
         logging.info(f"Loading transformer to transform dataset")
         transformer = load_object(file_path=model_resolver.get_latest_transformer_path())
         
