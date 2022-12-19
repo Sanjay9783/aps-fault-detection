@@ -24,6 +24,7 @@ git push origin main
 ##### steps for deployment #####
 '''
 step 1:- mogodb atlas, connect, my application-python 3.6
+            connet mongodb ip address 0.0.0.0/0
          mongodb atlas url: 
             mongodb+srv://sanjay:sanjay@cluster0.ua1lgcn.mongodb.net/?retryWrites=true&w=majority
 step 2:- insert dataset to mongodb atlas
@@ -35,6 +36,15 @@ step 4:- create 'Docker file'
         create '.dockerignore'
         create 'training_pipeline.py,batch_prediction.py' file in new folder airflow/dags
         create 'main.yaml' in new folder .github/workflow
+step 5:- set all secret keys to main.yaml file
+AWS_ACCESS_KEY_ID =
+AWS_SECRET_ACCESS_KEY =
+AWS_REGION =
+AWS_ECR_LOGIN_URI =
+ECR_REPOSITORY_NAME =
+BUCKET_NAME =
+MONGO_DB_URL = mongodb+srv://sanjay:sanjay@cluster0.ua1lgcn.mongodb.net/?retryWrites=true&w=majority
 
-           
+
+
 '''
