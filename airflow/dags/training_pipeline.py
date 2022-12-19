@@ -16,9 +16,9 @@ with DAG(
     start_date=pendulum.datetime(2022, 12, 11, tz="UTC"),
     catchup=False,
     tags=['example'],
-) 
-as dag:
+) as dag:
 
+    
     def training(**kwargs):
         from sensor.pipeline.training_pipeline import start_training_pipeline
         start_training_pipeline()
@@ -40,4 +40,4 @@ as dag:
 
     )
 
-    training_pipeline >> sync_data_to_s3
+    training_pipeline >> 
