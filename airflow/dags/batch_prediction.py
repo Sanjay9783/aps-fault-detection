@@ -1,46 +1,60 @@
-from sensor.exception import SensorException
-from sensor.logger import logging
-from sensor.predictor import ModelResolver
-import pandas as pd
-from sensor.utils import load_object
-import os,sys
-from datetime import datetime
-
-PREDICTION_DIR="prediction"
-
-import numpy as np
-def start_batch_prediction(input_file_path):
-    try:
-        os.makedirs(PREDICTION_DIR,exist_ok=True)
-        logging.info(f"Creating model resolver object")
-        model_resolver = ModelResolver(model_registry="saved_models")
-        logging.info(f"Reading file :{input_file_path}")
-        df = pd.read_csv(input_file_path)
-        df.replace({"na":np.NAN},inplace=True)
-        
-        #validation
-        logging.info(f"Loading transformer to transform dataset")
-        transformer = load_object(file_path=model_resolver.get_latest_transformer_path())
-        
-        input_feature_names =  list(transformer.feature_names_in_)
-        input_arr = transformer.transform(df[input_feature_names])
-
-        logging.info(f"Loading model to make prediction")
-        model = load_object(file_path=model_resolver.get_latest_model_path())
-        prediction = model.predict(input_arr)
-        
-        logging.info(f"Target encoder to convert predicted column into categorical")
-        target_encoder = load_object(file_path=model_resolver.get_latest_target_encoder_path())
-
-        cat_prediction = target_encoder.inverse_transform(prediction)
-
-        df["prediction"]=prediction
-        df["cat_pred"]=cat_prediction
+from asyncio import tasks
+import json
+from textwrap import dedent
+import pendulum
+import os
+from airflow import DAG
+from airflow.operators.python import PythonOperator
 
 
-        prediction_file_name = os.path.basename(input_file_path).replace(".csv",f"{datetime.now().strftime('%m%d%Y__%H%M%S')}.csv")
-        prediction_file_path = os.path.join(PREDICTION_DIR,prediction_file_name)
-        df.to_csv(prediction_file_path,index=False,header=True)
-        return prediction_file_path
-    except Exception as e:
-        raise SensorException(e, sys)
+with DAG(
+    'sensor_training',
+    default_args={'retries': 2},
+    # [END default_args]
+    description='Sensor Fault Detection',
+    schedule_interval="@weekly",
+    start_date=pendulum.datetime(2022, 12, 11, tz="UTC"),
+    catchup=False,
+    tags=['example'],
+) as dag:
+
+    
+    def download_files(**kwargs):
+        bucket_name = os.getenv("BUCKET_NAME")
+        input_dir = "/app/input_files"
+        #creating directory
+        os.makedirs(input_dir,exist_ok=True)
+        os.system(f"aws s3 sync s3://{bucket_name}/input_files /app/input_files")
+
+    def batch_prediction(**kwargs):
+        from sensor.pipeline.batch_prediction import start_batch_prediction
+        input_dir = "/app/input_files"
+        for file_name in os.listdir(input_dir):
+            #make prediction
+            start_batch_prediction(input_file_path=os.path.join(input_dir,file_name))
+    
+    def sync_prediction_dir_to_s3_bucket(**kwargs):
+        bucket_name = os.getenv("BUCKET_NAME")
+        #upload prediction folder to predictionfiles folder in s3 bucket
+        os.system(f"aws s3 sync /app/prediction s3://{bucket_name}/prediction_files")
+    
+
+    download_input_files  = PythonOperator(
+            task_id="download_file",
+            python_callable=download_files
+
+    )
+
+    generate_prediction_files = PythonOperator(
+            task_id="prediction",
+            python_callable=batch_prediction
+
+    )
+
+    upload_prediction_files = PythonOperator(
+            task_id="upload_prediction_files",
+            python_callable=sync_prediction_dir_to_s3_bucket
+
+    )
+
+    download_input_files >> generate_prediction_files >> upload_prediction_files

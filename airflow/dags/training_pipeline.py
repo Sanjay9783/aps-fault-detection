@@ -1,57 +1,43 @@
-from sensor.logger import logging
-from sensor.exception import SensorException
-from sensor.utils import get_collection_as_dataframe
-import sys,os
-from sensor.entity import config_entity
-from sensor.components.data_ingestion import DataIngestion
-from sensor.components.data_validation import DataValidation
-from sensor.components.data_transformation import DataTransformation
-from sensor.components.model_trainer import ModelTrainer
-from sensor.components.model_evaluation import ModelEvaluation
-from sensor.components.model_pusher import ModelPusher
+from asyncio import tasks
+import json
+from textwrap import dedent
+import pendulum
+import os
+from airflow import DAG
+from airflow.operators.python import PythonOperator
 
 
-def start_training_pipeline():
-    try:
-        training_pipeline_config = config_entity.TrainingPipelineConfig()
+with DAG(
+    'sensor_training',
+    default_args={'retries': 2},
+    # [END default_args]
+    description='Sensor Fault Detection',
+    schedule_interval="@weekly",
+    start_date=pendulum.datetime(2022, 12, 11, tz="UTC"),
+    catchup=False,
+    tags=['example'],
+) 
+as dag:
 
-        #data ingestion
-        data_ingestion_config  = config_entity.DataIngestionConfig(training_pipeline_config=training_pipeline_config)
-        print(data_ingestion_config.to_dict())
-        data_ingestion = DataIngestion(data_ingestion_config=data_ingestion_config)
-        data_ingestion_artifact = data_ingestion.initiate_data_ingestion()
-        
-        #data validation
-        data_validation_config = config_entity.DataValidationConfig(training_pipeline_config=training_pipeline_config)
-        data_validation = DataValidation(data_validation_config=data_validation_config,
-                        data_ingestion_artifact=data_ingestion_artifact)
+    def training(**kwargs):
+        from sensor.pipeline.training_pipeline import start_training_pipeline
+        start_training_pipeline()
+    
+    def sync_artifact_to_s3_bucket(**kwargs):
+        bucket_name = os.getenv("BUCKET_NAME")
+        os.system(f"aws s3 sync /app/artifact s3://{bucket_name}/artifacts")
+        os.system(f"aws s3 sync /app/saved_models s3://{bucket_name}/saved_models")
 
-        data_validation_artifact = data_validation.initiate_data_validation()
+    training_pipeline  = PythonOperator(
+            task_id="train_pipeline",
+            python_callable=training
 
-        #data transformation
-        data_transformation_config = config_entity.DataTransformationConfig(training_pipeline_config=training_pipeline_config)
-        data_transformation = DataTransformation(data_transformation_config=data_transformation_config, 
-        data_ingestion_artifact=data_ingestion_artifact)
-        data_transformation_artifact = data_transformation.initiate_data_transformation()
-        
-        #model trainer
-        model_trainer_config = config_entity.ModelTrainerConfig(training_pipeline_config=training_pipeline_config)
-        model_trainer = ModelTrainer(model_trainer_config=model_trainer_config, data_transformation_artifact=data_transformation_artifact)
-        model_trainer_artifact = model_trainer.initiate_model_trainer()
+    )
 
-        #model evaluation
-        model_eval_config = config_entity.ModelEvaluationConfig(training_pipeline_config=training_pipeline_config)
-        model_eval  = ModelEvaluation(model_eval_config=model_eval_config,
-        data_ingestion_artifact=data_ingestion_artifact,
-        data_transformation_artifact=data_transformation_artifact,
-        model_trainer_artifact=model_trainer_artifact)
-        model_eval_artifact = model_eval.initiate_model_evaluation()
+    sync_data_to_s3 = PythonOperator(
+            task_id="sync_data_to_s3",
+            python_callable=sync_artifact_to_s3_bucket
 
-        #model pusher
-        model_pusher_config = config_entity.ModelPusherConfig(training_pipeline_config)
-        model_pusher = ModelPusher(model_pusher_config=model_pusher_config, 
-                data_transformation_artifact=data_transformation_artifact,
-                model_trainer_artifact=model_trainer_artifact)
-        model_pusher_artifact = model_pusher.initiate_model_pusher()
-    except Exception as e:
-        raise SensorException(e, sys)
+    )
+
+    training_pipeline >> sync_data_to_s3
