@@ -15,7 +15,7 @@ class employee:
 git config --global user.email "sanjayav8397@gmail.com"
 git config --global user.name "Sanjay9783"
 git add .
-git commit -m "fgsfh"
+git commit -m "fgsfghgfh"
 git push origin main
 
 
@@ -30,6 +30,7 @@ step 4:- create 'Docker file'
         create 'start.sh'
         create 'docker-compose.yaml'
         create '.dockerignore'
-        create airflow/dags folder
+        create 'training_pipeline.py,batch_prediction.py' file in new folder airflow/dags
+        create 'main.yaml' in new folder .github/workflow
 
            
