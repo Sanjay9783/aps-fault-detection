@@ -88,7 +88,7 @@ step 5:- set all secret keys to main.yaml file
 
 step 6:- EC2 --> WE NEED TO CREATE
 
-in aws ec2-->instances-->launch_instances-->give name, choose ubantu , create_key, Configure storage=30gb-->launch_instances
+in aws ec2-->instances-->launch_instances-->give name, choose ubantu , create_key,  ,Configure storage=30gb-->launch_instances
     select your instance-->security_tab-->click on security group-->in inbound rules--edit inbound rules-->add rule--chose all_traffic,anywhere-ipv4
     instance-->connect-->connect
 
@@ -144,7 +144,7 @@ step 9:-
 step 10:- 
        if in github setings-->action-->runner--> 
 
-cd actions-runner/
+
 ./config.sh --url https://github.com/Sanjay9783/aps-fault-detection --token A2FDSSDDGKGQOQ5QECDOFRLDUKENQ
 ./run.sh
 
