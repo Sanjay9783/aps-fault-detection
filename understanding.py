@@ -54,21 +54,22 @@ CMD ["start.sh"]
 
 ##### steps for deployment #####
 '''
-step 1:- mogodb atlas, connect, my application-python 3.6
-            connet mongodb ip address 0.0.0.0/0
-         mongodb atlas url: 
-            mongodb+srv://sanjay:sanjay@cluster0.ua1lgcn.mongodb.net/?retryWrites=true&w=majority
-step 2:- insert dataset to mongodb atlas
-step 3:-
-        test code localy once after dumping data to mongodb atlas
-step 4:- create 'Docker file'
+step 1:- mogodb atlas (dumping data to mongodb web)
+            connect-->my application-->python 3.6
+            # connet mongodb ip address 0.0.0.0/0
+            # copy mongodb atlas url
+            mongodb atlas url: mongodb+srv://sanjay:sanjay@cluster0.ua1lgcn.mongodb.net/?retryWrites=true&w=majority
+            insert dataset to mongodb atlas (by running data_dump.py)
+            # test code localy once after dumping data to mongodb atlas
+
+step 2:-create 'Docker file' (time = 1.49 - 2.)
         create 'start.sh'
         create 'docker-compose.yaml'
         create '.dockerignore'
         create 'training_pipeline.py,batch_prediction.py' file in new folder airflow/dags
         create 'main.yaml' in new folder .github/workflow
 
-step 5:- set all secret keys to main.yaml file
+step 3:- set all secret keys to main.yaml file
         ---> from IAM aws
         AWS_ACCESS_KEY_ID = AKIA3FISYO36HEZM2KPJ
         AWS_SECRET_ACCESS_KEY = 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
@@ -142,11 +143,18 @@ step 9:-
 
 
 step 10:- 
-       if in github setings-->action-->runner--> 
-
+       if in github setings-->action-->runner(ofline)--> run(cd actions-runner , ./run.sh)
 
 ./config.sh --url https://github.com/Sanjay9783/aps-fault-detection --token A2FDSSDDGKGQOQ5QECDOFRLDUKENQ
-./run.sh
 
+step 11:-
+        to check deployment is done or not
+        in ec2 consol --> docker ps
+
+        in ec2 instance copy link:
+        https://ec2-13-233-140-101.ap-south-1.compute.amazonaws.com/
+        change 
+        http://ec2-13-233-140-101.ap-south-1.compute.amazonaws.com:8080
+        itwill pop up airflow
 
 '''
