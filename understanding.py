@@ -16,7 +16,7 @@ class employee:
 git config --global user.email "sanjayav8397@gmail.com"
 git config --global user.name "Sanjay9783"
 git add .
-git commit -m "docker_update"
+git commit -m "airflow-update"
 git push origin main
 '''
 
@@ -62,11 +62,11 @@ step 1:- mogodb atlas (dumping data to mongodb web)
             insert dataset to mongodb atlas (by running data_dump.py)
             # test code localy once after dumping data to mongodb atlas
 
-step 2:-create 'Docker file' (time = 1.49 - 2.)
+step 2:-create 'Docker file' (time = 1.49 - 2.01)
         create 'start.sh'
         create 'docker-compose.yaml'
         create '.dockerignore'
-        create 'training_pipeline.py,batch_prediction.py' file in new folder airflow/dags
+        create 'training_pipeline.py,batch_prediction.py' file in new folder airflow/dags (time = 2.02)
         create 'main.yaml' in new folder .github/workflow
 
 step 3:- set all secret keys to main.yaml file
