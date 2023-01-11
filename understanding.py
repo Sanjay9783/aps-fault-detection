@@ -17,7 +17,7 @@ class employee:
 git config --global user.email "sanjayav8397@gmail.com"
 git config --global user.name "Sanjay9783"
 git add .
-git commit -m "airflow-update"
+git commit -m "yaml update"
 git push origin main
 '''
 
@@ -140,7 +140,7 @@ step 8:-
         if in github setings-->action-->runner(ofline)
             in EC2 instance Connect (tab/consol) run below code
                 -->cd actions-runner
-                -->./run.sh)
+                -->./run.sh
 
 ./config.sh --url https://github.com/Sanjay9783/aps-fault-detection --token A2FDSSDDGKGQOQ5QECDOFRLDUKENQ
 
