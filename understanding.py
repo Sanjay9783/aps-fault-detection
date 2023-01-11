@@ -53,7 +53,7 @@ CMD ["start.sh"]
 
 
 ##### steps for deployment #####
-'''
+''' class = 11 dec
 step 1:- mogodb atlas (dumping data to mongodb web)
             connect-->my application-->python 3.6
             # connet mongodb ip address 0.0.0.0/0
@@ -66,8 +66,8 @@ step 2:-create 'Docker file' (time = 1.49 - 2.01)
         create 'start.sh'
         create 'docker-compose.yaml'
         create '.dockerignore'
-        create 'training_pipeline.py,batch_prediction.py' file in new folder airflow/dags (time = 2.02)
-        create 'main.yaml' in new folder .github/workflow
+        create 'training_pipeline.py,batch_prediction.py' file in new folder airflow/dags (time = 2.02 - 2.16)
+        create 'main.yaml' in new folder .github/workflow (time = 2.16 - 2.38)
 
 step 3:- set all secret keys to main.yaml file
         ---> from IAM aws
@@ -87,13 +87,13 @@ step 3:- set all secret keys to main.yaml file
 
     in aws search s3--> create bucket
 
-step 6:- EC2 --> WE NEED TO CREATE
+step 4:- EC2 --> WE NEED TO CREATE
 
 in aws ec2-->instances-->launch_instances-->give name, choose ubantu , create_key,  ,Configure storage=30gb-->launch_instances
     select your instance-->security_tab-->click on security group-->in inbound rules--edit inbound rules-->add rule--chose all_traffic,anywhere-ipv4
     instance-->connect-->connect
 
-step 7:-
+step 5:-
     after step6  we will get a consol exicute code line by line to installdocker in aws-ubantu
     clear
     #curl -fsSL https://get.docker.com -o get-docker.sh
@@ -102,7 +102,7 @@ step 7:-
     #newgrp docker
     docker --version
 
-step 8:-
+step 6:-
     open project repop in github-->setings-->actions-->runners-->new self-hosted runner-->linux----
     ---> run commands below in ec2 machine one by one 
                     configure in github--
@@ -130,7 +130,7 @@ step 8:-
 
                             ubuntu@ip-172-31-45-106:~/actions-runner$ ./run.sh
 
-step 9:-
+step 7:-
     github-->setings-->secrets-->actions-->new repo secret ----
             add one by one
         ---> AWS_ACCESS_KEY_ID = AKIA3FISYO36HEZM2KPJ
@@ -142,12 +142,12 @@ step 9:-
             MONGO_DB_URL = mongodb+srv://sanjay:sanjay@cluster0.ua1lgcn.mongodb.net/?retryWrites=true&w=majority
 
 
-step 10:- 
+step 8:- 
        if in github setings-->action-->runner(ofline)--> run(cd actions-runner , ./run.sh)
 
 ./config.sh --url https://github.com/Sanjay9783/aps-fault-detection --token A2FDSSDDGKGQOQ5QECDOFRLDUKENQ
 
-step 11:-
+step 9:-
         to check deployment is done or not
         in ec2 consol --> docker ps
 
