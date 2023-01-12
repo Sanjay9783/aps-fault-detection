@@ -4,12 +4,8 @@ from glob import glob
 from typing import Optional
 import os
 
-'''
-this file helps in to read , load or save model
-'''
-
 class ModelResolver:
-
+    
     def __init__(self,model_registry:str = "saved_models",
                 transformer_dir_name="transformer",
                 target_encoder_dir_name = "target_encoder",
@@ -91,9 +87,3 @@ class ModelResolver:
             return os.path.join(latest_dir,self.target_encoder_dir_name,TARGET_ENCODER_OBJECT_FILE_NAME)
         except Exception as e:
             raise e
-
-
-class Predictor:
-
-    def __init__(self,model_resolver:ModelResolver):
-        self.model_resolver=model_resolver

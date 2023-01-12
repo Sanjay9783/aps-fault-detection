@@ -7,12 +7,6 @@ import yaml
 import numpy as np
 import dill
 
-
-'''
-this file is used to fech the file records in database 
-and return the record in the pandas dataframe 
-'''
-
 def get_collection_as_dataframe(database_name:str,collection_name:str)->pd.DataFrame:
     """
     Description: This function return collection as dataframe
@@ -27,18 +21,15 @@ def get_collection_as_dataframe(database_name:str,collection_name:str)->pd.DataF
         logging.info(f"Reading data from database: {database_name} and collection: {collection_name}")
         df = pd.DataFrame(list(mongo_client[database_name][collection_name].find()))
         logging.info(f"Found columns: {df.columns}")
-        
-        # dropping unnecessary column
         if "_id" in df.columns:
             logging.info(f"Dropping column: _id ")
+            # dropping unnecessary column
             df = df.drop("_id",axis=1)
         logging.info(f"Row and columns in df: {df.shape}")
-
         return df
-
     except Exception as e:
         raise SensorException(e, sys)
-
+    
 
 def write_yaml_file(file_path,data:dict):
     try:
@@ -59,7 +50,6 @@ def convert_columns_float(df:pd.DataFrame,exclude_columns:list)->pd.DataFrame:
         raise e
 
 # save_object, load_object used in data_transformation
-
 def save_object(file_path: str, obj: object) -> None:
     try:
         logging.info("Entered the save_object method of utils")
@@ -80,8 +70,6 @@ def load_object(file_path: str, ) -> object:
     except Exception as e:
         raise SensorException(e, sys) from e
 
-
-# save_numpy_array_data, load_numpy_array_data used in data_transformation
 def save_numpy_array_data(file_path: str, array: np.array):
     """
     Save numpy array data to file
