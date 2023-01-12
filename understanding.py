@@ -106,7 +106,18 @@ step 5:-(time = 3.19 - 3.25)
         -->newgrp docker
         -->docker --version
 
-step 6:-(time = 3.25 - )
+step 6:-(time ends = 3.50)
+    github-->setings-->secrets and variables-->actions-->new repo secret ----
+            add one by one
+        --->AWS_ACCESS_KEY_ID = AKIA3FISYO36PNVMVS7W
+            AWS_SECRET_ACCESS_KEY = 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
+            AWS_REGION = ap-south-1
+            AWS_ECR_LOGIN_URI = 767227885308.dkr.ecr.ap-south-1.amazonaws.com
+            ECR_REPOSITORY_NAME = sensor_fault
+            BUCKET_NAME = aps-fault-sensor
+            MONGO_DB_URL = mongodb+srv://sanjay:sanjay@cluster0.ua1lgcn.mongodb.net/?retryWrites=true&w=majority
+            
+step 7:-(time = 3.25 - )
     open project repop in github-->setings-->actions-->runners-->'New self-hosted runner'-->linux----
     ---> run commands below in ec2 machine one by one
             ---> code in 'Download' tab
@@ -124,17 +135,6 @@ step 6:-(time = 3.25 - )
                         -->Enter name of work folder: [press Enter for _work]-->enter
                         Settings Saved.
                     second code in configure "./run.sh"
-
-step 7:-(time ends = 3.50)
-    github-->setings-->secrets and variables-->actions-->new repo secret ----
-            add one by one
-        --->AWS_ACCESS_KEY_ID = AKIA3FISYO36PNVMVS7W
-            AWS_SECRET_ACCESS_KEY = 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
-            AWS_REGION = ap-south-1
-            AWS_ECR_LOGIN_URI = 767227885308.dkr.ecr.ap-south-1.amazonaws.com
-            ECR_REPOSITORY_NAME = sensor_fault
-            BUCKET_NAME = aps-fault-sensor
-            MONGO_DB_URL = mongodb+srv://sanjay:sanjay@cluster0.ua1lgcn.mongodb.net/?retryWrites=true&w=majority
 
 step 8:- (time=4.00)
         if in github setings-->action-->runner(ofline)
