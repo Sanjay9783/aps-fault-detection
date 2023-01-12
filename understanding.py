@@ -17,7 +17,7 @@ class employee:
 git config --global user.email "sanjayav8397@gmail.com"
 git config --global user.name "Sanjay9783"
 git add .
-git commit -m "ghdgf"
+git commit -m "last update"
 git push origin main
 '''
 
@@ -74,7 +74,7 @@ step 3:- set all secret keys required for main.yaml file
             AWS_ACCESS_KEY_ID = AKIA3FISYO36PNVMVS7W
             AWS_SECRET_ACCESS_KEY = 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
         ---> from ECR aws
-            AWS_ECR_LOGIN_URI = 767227885308.dkr.ecr.ap-south-1.amazonaws.com/
+            AWS_ECR_LOGIN_URI = 767227885308.dkr.ecr.ap-south-1.amazonaws.com
             ECR_REPOSITORY_NAME = sensor_fault
         ---> from s3 aws
             BUCKET_NAME = aps-fault-sensor
@@ -131,7 +131,7 @@ step 7:-(time ends = 3.50)
         --->AWS_ACCESS_KEY_ID = AKIA3FISYO36PNVMVS7W
             AWS_SECRET_ACCESS_KEY = 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
             AWS_REGION = ap-south-1
-            AWS_ECR_LOGIN_URI = 767227885308.dkr.ecr.ap-south-1.amazonaws.com/
+            AWS_ECR_LOGIN_URI = 767227885308.dkr.ecr.ap-south-1.amazonaws.com
             ECR_REPOSITORY_NAME = sensor_fault
             BUCKET_NAME = aps-fault-sensor
             MONGO_DB_URL = mongodb+srv://sanjay:sanjay@cluster0.ua1lgcn.mongodb.net/?retryWrites=true&w=majority
