@@ -23,7 +23,6 @@ TARGET_ENCODER_OBJECT_FILE_NAME = "target_encoder.pkl"
 MODEL_FILE_NAME = "model.pkl"
 
 class TrainingPipelineConfig:
-
     def __init__(self):
         try:
             self.artifact_dir = os.path.join(os.getcwd(),"artifact",f"{datetime.now().strftime('%m%d%Y__%H%M%S')}")
@@ -31,11 +30,7 @@ class TrainingPipelineConfig:
             raise SensorException(e,sys)     
 
 
-'''
-input for data_ingetion.py file it will fetch input from hear
-'''
 class DataIngestionConfig:
-
     def __init__(self,training_pipeline_config:TrainingPipelineConfig):
         try:
             self.database_name="aps"
@@ -55,13 +50,9 @@ class DataIngestionConfig:
         try:
             return self.__dict__
         except Exception  as e:
-            raise SensorException(e,sys)     
+            raise SensorException(e,sys)
 
-'''
-input for data_validation
-'''
 class DataValidationConfig:
-
     def __init__(self,training_pipeline_config:TrainingPipelineConfig):
         self.data_validation_dir = os.path.join(training_pipeline_config.artifact_dir , "data_validation")
         # report after validation is stored here
@@ -70,9 +61,7 @@ class DataValidationConfig:
         ## cleaned file for comparision
         self.base_file_path = os.path.join("aps_failure_training_set1.csv")
 
-
 class DataTransformationConfig:
-
     def __init__(self,training_pipeline_config:TrainingPipelineConfig):
         self.data_transformation_dir = os.path.join(training_pipeline_config.artifact_dir , "data_transformation")
         self.transform_object_path = os.path.join(self.data_transformation_dir,"transformer",TRANSFORMER_OBJECT_FILE_NAME)
@@ -81,7 +70,6 @@ class DataTransformationConfig:
         self.target_encoder_path = os.path.join(self.data_transformation_dir,"target_encoder",TARGET_ENCODER_OBJECT_FILE_NAME)
 
 class ModelTrainerConfig:
-
     def __init__(self,training_pipeline_config:TrainingPipelineConfig):
         self.model_trainer_dir = os.path.join(training_pipeline_config.artifact_dir , "model_trainer")
         self.model_path = os.path.join(self.model_trainer_dir,"model",MODEL_FILE_NAME)
@@ -93,8 +81,6 @@ class ModelEvaluationConfig:
     def __init__(self,training_pipeline_config:TrainingPipelineConfig):
         self.change_threshold = 0.01
 
-
-        
 class ModelPusherConfig:
     def __init__(self,training_pipeline_config:TrainingPipelineConfig):
         self.model_pusher_dir = os.path.join(training_pipeline_config.artifact_dir , "model_pusher")
