@@ -17,7 +17,7 @@ class employee:
 git config --global user.email "sanjayav8397@gmail.com"
 git config --global user.name "Sanjay9783"
 git add .
-git commit -m "last update"
+git commit -m "update"
 git push origin main
 '''
 
@@ -136,7 +136,7 @@ step 7:-(time ends = 3.50)
             BUCKET_NAME = aps-fault-sensor
             MONGO_DB_URL = mongodb+srv://sanjay:sanjay@cluster0.ua1lgcn.mongodb.net/?retryWrites=true&w=majority
 
-step 8:- 
+step 8:- (time=4.00)
         if in github setings-->action-->runner(ofline)
             in EC2 instance Connect (tab/consol) run below code
                 -->cd actions-runner
