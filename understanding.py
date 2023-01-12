@@ -17,7 +17,7 @@ class employee:
 git config --global user.email "sanjayav8397@gmail.com"
 git config --global user.name "Sanjay9783"
 git add .
-git commit -m "today update"
+git commit -m "ghgj"
 git push origin main
 '''
 
@@ -128,8 +128,8 @@ step 6:-(time = 3.25 - )
 step 7:-(time ends = 3.50)
     github-->setings-->secrets and variables-->actions-->new repo secret ----
             add one by one
-        --->AWS_ACCESS_KEY_ID = AKIA3FISYO36MAV3YRAA
-            AWS_SECRET_ACCESS_KEY = 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
+        --->AWS_ACCESS_KEY_ID = AKIA3FISYO36PNVMVS7W
+            AWS_SECRET_ACCESS_KEY = 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
             AWS_REGION = ap-south-1
             AWS_ECR_LOGIN_URI = 767227885308.dkr.ecr.ap-south-1.amazonaws.com/
             ECR_REPOSITORY_NAME = sensor_fault
@@ -141,6 +141,8 @@ step 8:-
             in EC2 instance Connect (tab/consol) run below code
                 -->cd actions-runner
                 -->./run.sh
+
+                -->./config.sh --url https://github.com/Sanjay9783/aps-fault-detection --token A2FDSSAO4QIO7XQDOCK2RUDDX6JLM
 
 ./config.sh --url https://github.com/Sanjay9783/aps-fault-detection --token A2FDSSDDGKGQOQ5QECDOFRLDUKENQ
 
