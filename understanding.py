@@ -17,7 +17,7 @@ class employee:
 git config --global user.email "sanjayav8397@gmail.com"
 git config --global user.name "Sanjay9783"
 git add .
-git commit -m "yaml update"
+git commit -m "today update"
 git push origin main
 '''
 
@@ -71,8 +71,8 @@ step 2:-create 'Docker file' (time = 1.49 - 2.01)
 
 step 3:- set all secret keys required for main.yaml file
         ---> from IAM aws
-            AWS_ACCESS_KEY_ID = AKIA3FISYO36MAV3YRAA
-            AWS_SECRET_ACCESS_KEY = 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
+            AWS_ACCESS_KEY_ID = AKIA3FISYO36PNVMVS7W
+            AWS_SECRET_ACCESS_KEY = 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
         ---> from ECR aws
             AWS_ECR_LOGIN_URI = 767227885308.dkr.ecr.ap-south-1.amazonaws.com/
             ECR_REPOSITORY_NAME = sensor_fault
