@@ -5,10 +5,10 @@ import pandas as pd
 from sensor.utils import load_object
 import os,sys
 from datetime import datetime
+import numpy as np
 
 PREDICTION_DIR="prediction"
 
-import numpy as np
 def start_batch_prediction(input_file_path):
     try:
         os.makedirs(PREDICTION_DIR,exist_ok=True)

@@ -17,7 +17,7 @@ class employee:
 git config --global user.email "sanjayav8397@gmail.com"
 git config --global user.name "Sanjay9783"
 git add .
-git commit -m "sensor"
+git commit -m "artifact"
 git push origin main
 '''
 
